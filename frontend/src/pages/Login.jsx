@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,9 +7,25 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import useAuth from '../hooks';
+import { useLoginMutation } from '../api/auth';
 
 const Login = () => {
-  const submitForm = () => {};
+  const { logIn } = useAuth();
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
+  const submitForm = async (values) => {
+    const { nickname, password } = values;
+    const user = {
+      username: nickname,
+      password,
+    };
+    const { data } = await login(user);
+    if (data) {
+      logIn(data.token, nickname);
+      navigate('/');
+    }
+  };
   const title = 'Войти';
   const name = 'Имя';
   const passwdName = 'Пароль';
