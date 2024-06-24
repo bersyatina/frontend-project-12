@@ -3,19 +3,23 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Formik } from 'formik';
 import { useAddChannelMutation } from '../../api/channels';
+import { changeChannel } from '../../store/slices/appSlice';
 
 const NewChannel = (props) => {
   const {
-    handleCloseModal, showModal, channelNameSchema,
+    handleCloseModal, showModal, channelNameSchema, dispatch,
   } = props;
   const [addChannel] = useAddChannelMutation();
+
   const handleFormSubmit = async (values) => {
     const { channelName } = values;
     const data = {
       name: channelName,
       removable: true,
     };
-    await addChannel(data);
+    const payload = await addChannel(data).unwrap();
+    const { id, name } = payload;
+    dispatch(changeChannel({ id, name }));
     handleCloseModal();
   };
   return (

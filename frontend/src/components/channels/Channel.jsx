@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeChannel } from '../../store/slices/appSlice';
+import { changeChannel, setChannelModal } from '../../store/slices/appSlice';
 
 const Channel = ({ data }) => {
   const dispatch = useDispatch();
@@ -15,11 +15,33 @@ const Channel = ({ data }) => {
       dispatch(changeChannel({ id, name }));
     }
   };
+  const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
+    dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
+  };
   return (
     <Nav.Item>
       {data.removable ? (
         <Dropdown as={ButtonGroup} drop="down" className="w-100">
-          <Button onClick={() => switchChannel()} className="w-100 rounded-0 text-start text-truncate" variant={variantButton}>{`# ${data.name}`}</Button>
+          <Button
+            onClick={() => switchChannel()}
+            className="w-100 rounded-0 text-start text-truncate"
+            variant={variantButton}
+          >
+            {`# ${data.name}`}
+          </Button>
+          <Dropdown.Toggle
+            as={Button}
+            className="text-end"
+            split
+            variant={variantButton}
+            id={`dropdown-split-button${data.id}`}
+          >
+            <span className="visually-hidden">dropdown.toggle</span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleShowModal('removing', data)}>Удалить канал</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleShowModal('renaming', data)}>Переименовать канал</Dropdown.Item>
+          </Dropdown.Menu>
         </Dropdown>
       ) : (
         <Button

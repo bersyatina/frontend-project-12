@@ -24,6 +24,7 @@ const appSlice = createSlice({
       state.showModal = action.payload.modalName;
     },
     changeChannel: (state, action) => {
+      console.log(state);
       const { name, id } = action.payload;
       state.currentChannelId = id;
       state.currentChannelName = name;
