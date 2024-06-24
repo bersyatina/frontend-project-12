@@ -1,24 +1,34 @@
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
 import {
-  // channelsApi,
+  channelsApi,
   useGetChannelsQuery,
 } from '../../api/channels';
 import Channel from './Channel';
 import { setChannelModal } from '../../store/slices/appSlice';
 import ModalContainer from '../modals';
+import socket from '../../socket';
 
 const Channels = () => {
   const { data: channels = [] } = useGetChannelsQuery();
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
     dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
   };
+  useEffect(() => {
+    const handleNewChannel = (channel) => {
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+        draft.push(channel);
+      }));
+    };
+    socket.on('newChannel', handleNewChannel);
+    return () => {
+      socket.off('newChannel');
+    };
+  }, [dispatch]);
 
   return (
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">

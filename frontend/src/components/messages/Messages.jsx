@@ -1,15 +1,28 @@
 import Col from 'react-bootstrap/esm/Col';
-import { useSelector } from 'react-redux';
-import { useRef } from 'react';
-import { useGetMessagesQuery } from '../../api/messages';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { messagesApi, useGetMessagesQuery } from '../../api/messages';
 import Message from './Message';
+import socket from '../../socket';
 
 const Messages = () => {
   const { data: messages = [] } = useGetMessagesQuery();
+  const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
   const messagesContainer = useRef();
+  useEffect(() => {
+    const handleNewMessage = (newMessage) => {
+      dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
+        draft.push(newMessage);
+      }));
+    };
+    socket.on('newMessage', handleNewMessage);
+    return () => {
+      socket.off('newMessage');
+    };
+  }, [dispatch, messagesContainer]);
   return (
     <Col className="p-0 h-100">
       <div className="d-flex flex-column h-100">
