@@ -51,7 +51,7 @@ export default {
         newMessage: 'Новое сообщение',
       },
       placeholders: {
-        message: 'Введите сообщение...',
+        message: 'Новое сообщение',
       },
       buttons: {
         submit: 'Отправить',
