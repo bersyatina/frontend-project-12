@@ -3,12 +3,14 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { changeChannel, setChannelModal } from '../../store/slices/appSlice';
 
 const Channel = ({ data }) => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const variantButton = data.id === currentChannelId ? 'secondary' : 'light';
+  const { t } = useTranslation();
   const switchChannel = () => {
     const { id, name } = data;
     if (id !== currentChannelId) {
@@ -36,11 +38,11 @@ const Channel = ({ data }) => {
             variant={variantButton}
             id={`dropdown-split-button${data.id}`}
           >
-            <span className="visually-hidden">dropdown.toggle</span>
+            <span className="visually-hidden">{t('dropdown.toggle')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleShowModal('removing', data)}>Удалить канал</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleShowModal('renaming', data)}>Переименовать канал</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleShowModal('removing', data)}>{t('channels.dropdown.delete')}</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleShowModal('renaming', data)}>{t('channels.dropdown.rename')}</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       ) : (

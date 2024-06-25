@@ -7,7 +7,7 @@ import { changeChannel } from '../../store/slices/appSlice';
 
 const NewChannel = (props) => {
   const {
-    handleCloseModal, showModal, channelNameSchema, dispatch,
+    handleCloseModal, showModal, channelNameSchema, dispatch, t,
   } = props;
   const [addChannel] = useAddChannelMutation();
 
@@ -25,7 +25,7 @@ const NewChannel = (props) => {
   return (
     <Modal show={showModal === 'adding'} onHide={handleCloseModal}>
       <Modal.Header closeButton>
-        <Modal.Title>titleAddChannel</Modal.Title>
+        <Modal.Title>{t('modals.titleAddChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -37,12 +37,12 @@ const NewChannel = (props) => {
             values, handleChange, handleSubmit, errors,
           }) => (
             <Form onSubmit={handleSubmit}>
-              <Form.Label htmlFor="channelName">channelName</Form.Label>
+              <Form.Label htmlFor="channelName">{t('form.labels.channelName')}</Form.Label>
               <Form.Control value={values.channelName} name="channelName" onChange={handleChange} id="channelName" isInvalid={!!errors.channelName} autoFocus />
               <Form.Control.Feedback type="invalid">{errors.channelName}</Form.Control.Feedback>
               <div className="d-flex justify-content-end mt-2">
-                <Button type="button" variant="secondary" onClick={handleCloseModal} className="me-2">Cancel</Button>
-                <Button type="submit" variant="primary">Submit</Button>
+                <Button type="button" variant="secondary" onClick={handleCloseModal} className="me-2">{t('form.buttons.cancel')}</Button>
+                <Button type="submit" variant="primary">{t('form.buttons.submit')}</Button>
               </div>
             </Form>
           )}

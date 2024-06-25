@@ -5,7 +5,7 @@ import { changeChannel } from '../../store/slices/appSlice';
 
 const DeleteChannel = (props) => {
   const {
-    handleCloseModal, showModal, currentChannelId, modalChannelId, dispatch,
+    handleCloseModal, showModal, currentChannelId, modalChannelId, dispatch, t,
   } = props;
   const [removeChannel] = useRemoveChannelMutation();
   const deleteChannel = async (id) => {
@@ -22,10 +22,10 @@ const DeleteChannel = (props) => {
   return (
     <Modal show={showModal === 'removing'} onHide={handleCloseModal}>
       <Modal.Header closeButton>
-        <Modal.Title>titleDeleteChannel</Modal.Title>
+        <Modal.Title>{t('modals.titleDeleteChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>textDeleteChannel</p>
+        <p>{t('modals.textDeleteChannel')}</p>
         <div className="d-flex justify-content-end mt-2">
           <Button
             type="button"
@@ -33,14 +33,14 @@ const DeleteChannel = (props) => {
             onClick={handleCloseModal}
             className="me-2"
           >
-            cancel
+            {t('form.buttons.cancel')}
           </Button>
           <Button
             type="button"
             variant="danger"
             onClick={() => deleteChannel(modalChannelId)}
           >
-            delete
+            {t('form.buttons.delete')}
           </Button>
         </div>
       </Modal.Body>

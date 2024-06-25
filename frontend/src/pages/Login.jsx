@@ -7,31 +7,44 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks';
 import { useLoginMutation } from '../api/auth';
+import { appPaths } from '../routes';
 
 const Login = () => {
   const { logIn } = useAuth();
+  const { t } = useTranslation();
   const [login] = useLoginMutation();
   const navigate = useNavigate();
-  const submitForm = async (values) => {
+  const submitForm = async (values, { setErrors }) => {
     const { nickname, password } = values;
     const user = {
       username: nickname,
       password,
     };
-    const { data } = await login(user);
+    const { data, error } = await login(user);
     if (data) {
       logIn(data.token, nickname);
       navigate('/');
     }
+    if (error) {
+      switch (error.status) {
+        case 401: {
+          setErrors({ password: t('form.errors.password') });
+          break;
+        }
+        case 'FETCH_ERROR': {
+          setErrors({ web: 'errorNetwork' });
+          break;
+        }
+        default: {
+          setErrors({ password: t('form.errors.password') });
+        }
+      }
+    }
   };
-  const title = 'Войти';
-  const name = 'Имя';
-  const passwdName = 'Пароль';
-  const footerText = 'Нет аккаунта?';
-  const loginPageFooterLink = 'Регистрация';
-  const loginPageButton = 'Войти';
+
   return (
     <Container className="container-fluid h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -39,7 +52,7 @@ const Login = () => {
           <Card className="shadow-sm">
             <Card.Body className="row">
               <Col xs="12" md="6" className="d-flex align-items-center justify-content-center">
-                <Image src="login.jpeg" alt={title} />
+                <Image src="login.jpeg" alt={t('loginPage.title')} />
               </Col>
               <Col xs="12" md="6">
                 <Formik
@@ -50,9 +63,9 @@ const Login = () => {
                     handleSubmit, handleChange, values, errors,
                   }) => (
                     <Form onSubmit={handleSubmit} className="form">
-                      <h1>{title}</h1>
+                      <h1>{t('loginPage.title')}</h1>
                       <Form.Group className="mb-3">
-                        <Form.Label htmlFor="nickname">{name}</Form.Label>
+                        <Form.Label htmlFor="nickname">{t('loginPage.nickname')}</Form.Label>
                         <Form.Control
                           id="nickname"
                           required
@@ -65,7 +78,7 @@ const Login = () => {
                         />
                       </Form.Group>
                       <Form.Group className="mb-3 position-relative">
-                        <Form.Label htmlFor="password">{passwdName}</Form.Label>
+                        <Form.Label htmlFor="password">{t('loginPage.password')}</Form.Label>
                         <Form.Control
                           id="password"
                           required
@@ -77,7 +90,7 @@ const Login = () => {
                         />
                         <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback>
                       </Form.Group>
-                      <Button type="submit" className="w-100" variant="outline-primary">{loginPageButton}</Button>
+                      <Button type="submit" className="w-100" variant="outline-primary">{t('loginPage.button')}</Button>
                     </Form>
                   )}
                 </Formik>
@@ -86,9 +99,9 @@ const Login = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>
-                  {footerText}
+                  {t('loginPage.footer.text')}
                   {' '}
-                  <Link to="/signup">{loginPageFooterLink}</Link>
+                  <Link to={appPaths.signup()}>{t('loginPage.footer.link')}</Link>
                 </span>
               </div>
             </Card.Footer>

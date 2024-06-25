@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import NewChannel from './NewChannel';
 import { setChannelModal } from '../../store/slices/appSlice';
@@ -13,6 +14,7 @@ const modals = {
 };
 
 const ModalContainer = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const modalChannelId = useSelector((state) => state.app.modalChannelId);
@@ -20,10 +22,10 @@ const ModalContainer = () => {
   const channelsNames = channels.map((channel) => channel.name);
   const channelNameSchema = Yup.object().shape({
     channelName: Yup.string()
-      .notOneOf(channelsNames, 'channelExists')
-      .min(3, 'form.errors.range')
-      .max(20, 'form.errors.range')
-      .required('form.errors.required'),
+      .notOneOf(channelsNames, t('channelExists'))
+      .min(3, t('form.errors.range'))
+      .max(20, t('form.errors.range'))
+      .required(t('form.errors.required')),
   });
   const handleCloseModal = () => {
     dispatch(setChannelModal({ id: '', name: '', modalName: '' }));
@@ -41,6 +43,7 @@ const ModalContainer = () => {
       modalChannelId={modalChannelId}
       dispatch={dispatch}
       channelNameSchema={channelNameSchema}
+      t={t}
     />
   );
 };

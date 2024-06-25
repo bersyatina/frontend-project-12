@@ -9,7 +9,7 @@ import { changeChannel } from '../../store/slices/appSlice';
 
 const RenameChannel = (props) => {
   const {
-    handleCloseModal, showModal, modalChannelId, dispatch, channelNameSchema,
+    handleCloseModal, showModal, modalChannelId, dispatch, channelNameSchema, t,
   } = props;
   const input = useRef();
   const [updateChannel] = useUpdateChannelMutation();
@@ -39,7 +39,7 @@ const RenameChannel = (props) => {
   return (
     <Modal show={showModal === 'renaming'} onHide={handleCloseModal}>
       <Modal.Header closeButton>
-        <Modal.Title>titleRenameChannel</Modal.Title>
+        <Modal.Title>{t('modals.titleRenameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -51,7 +51,7 @@ const RenameChannel = (props) => {
             values, handleChange, handleSubmit, errors,
           }) => (
             <Form onSubmit={handleSubmit}>
-              <Form.Label htmlFor="channelName" visuallyHidden>channelName</Form.Label>
+              <Form.Label htmlFor="channelName" visuallyHidden>{t('form.labels.channelName')}</Form.Label>
               <Form.Control
                 ref={input}
                 value={values.channelName}
@@ -69,9 +69,9 @@ const RenameChannel = (props) => {
                   onClick={handleCloseModal}
                   className="me-2"
                 >
-                  cancel
+                  {t('form.buttons.cancel')}
                 </Button>
-                <Button type="submit" variant="primary">submit</Button>
+                <Button type="submit" variant="primary">{t('form.buttons.submit')}</Button>
               </div>
             </Form>
           )}

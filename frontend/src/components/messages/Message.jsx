@@ -5,12 +5,14 @@ import Form from 'react-bootstrap/Form';
 import { Send } from 'react-bootstrap-icons';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useAddMessageMutation } from '../../api/messages';
 
 const Message = () => {
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const username = useSelector((state) => state.app.username);
   const [addMessage] = useAddMessageMutation();
+  const { t } = useTranslation();
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const { message } = values;
@@ -34,8 +36,17 @@ const Message = () => {
         {({ handleSubmit, handleChange, values }) => (
           <Form onSubmit={handleSubmit}>
             <InputGroup>
-              <Form.Label htmlFor="new-message" hidden>form.labels.message</Form.Label>
-              <Form.Control placeholder="form.placeholders.message" autoFocus id="new-message" aria-label="form.labels.newMessage" value={values.message} onChange={handleChange} type="text" name="message" />
+              <Form.Label htmlFor="new-message" hidden>{t('form.labels.message')}</Form.Label>
+              <Form.Control
+                placeholder={t('form.placeholders.message')}
+                autoFocus
+                id="new-message"
+                aria-label={t('form.placeholders.message')}
+                value={values.message}
+                onChange={handleChange}
+                type="text"
+                name="message"
+              />
               <Button type="submit">
                 <Send />
               </Button>

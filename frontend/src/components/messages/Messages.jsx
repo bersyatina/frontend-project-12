@@ -1,6 +1,7 @@
 import Col from 'react-bootstrap/esm/Col';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { messagesApi, useGetMessagesQuery } from '../../api/messages';
 import Message from './Message';
 import socket from '../../socket';
@@ -8,6 +9,7 @@ import socket from '../../socket';
 const Messages = () => {
   const { data: messages = [] } = useGetMessagesQuery();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
@@ -35,7 +37,7 @@ const Messages = () => {
           <span className="text-muted">
             {filteredMessages.length}
             {' '}
-            messages.messages
+            {t('messages.messages')}
           </span>
         </div>
         <div className="overflow-auto px-5" ref={messagesContainer}>

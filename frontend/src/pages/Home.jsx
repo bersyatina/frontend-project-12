@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Channels from '../components/channels/Channels';
 import Messages from '../components/messages/Messages';
-// import useAuth from '../hooks';
-// import { useLoginMutation } from '../api/auth';
 
 const Home = () => {
   const navigate = useNavigate();

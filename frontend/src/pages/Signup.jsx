@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useTranslation } from 'react-i18next';
 import { useSignupMutation } from '../api/auth';
 import { setUserData } from '../store/slices/appSlice';
 import { appPaths } from '../routes';
@@ -16,20 +17,21 @@ import useAuth from '../hooks';
 
 const Signup = () => {
   const { logIn } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signup] = useSignupMutation();
   const signupSchema = Yup.object().shape({
     nickname: Yup.string()
-      .required('required')
-      .min(3, 'range')
-      .max(20, 'range'),
+      .required(t('form.errors.required'))
+      .min(3, t('form.errors.range'))
+      .max(20, t('form.errors.range')),
     password: Yup.string()
-      .required('required')
-      .min(6, 'min'),
+      .required(t('form.errors.required'))
+      .min(6, t('form.errors.min')),
     passwordConfirm: Yup.string()
-      .required('required')
-      .oneOf([Yup.ref('password'), null], 'passwordMustMatch'),
+      .required(t('form.errors.required'))
+      .oneOf([Yup.ref('password'), null], t('form.errors.passwordMustMatch')),
   });
   const handleFormSubmit = async (values, { setErrors }) => {
     const { nickname, password } = values;
@@ -46,11 +48,11 @@ const Signup = () => {
     if (error) {
       switch (error.status) {
         case 409: {
-          setErrors({ nickname: 'userExists' });
+          setErrors({ nickname: t('form.errors.userExists') });
           break;
         }
         default: {
-          setErrors({ nickname: 'nickname', password: 'password', passwordConfirm: 'passwordConfirm' });
+          setErrors({ nickname: t('form.errors.nickname'), password: t('form.errors.password'), passwordConfirm: t('form.errors.passwordConfirm') });
         }
       }
     }
@@ -62,7 +64,7 @@ const Signup = () => {
           <Card className="shadow-sm">
             <Card.Body className="row">
               <Col xs="12" md="6" className="d-flex align-items-center justify-content-center">
-                <Image src="signup.jpg" alt="signup.jpg" />
+                <Image src="signup.jpeg" alt={t('signupPage.imgAlt')} />
               </Col>
               <Col xs="12" md="6">
                 <Formik
@@ -75,23 +77,23 @@ const Signup = () => {
                     handleSubmit, handleChange, values, errors,
                   }) => (
                     <Form onSubmit={handleSubmit} className="form">
-                      <h1>signupPageTitle</h1>
+                      <h1>{t('signupPage.title')}</h1>
                       <Form.Group className="mb-3">
-                        <Form.Label htmlFor="nickname">signupPageNickname</Form.Label>
+                        <Form.Label htmlFor="nickname">{t('signupPage.nickname')}</Form.Label>
                         <Form.Control required id="nickname" value={values.nickname} onChange={handleChange} type="text" name="nickname" isInvalid={!!errors.nickname} />
                         <Form.Control.Feedback type="invalid">{errors.nickname}</Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="mb-3">
-                        <Form.Label htmlFor="password">Пароль</Form.Label>
+                        <Form.Label htmlFor="password">{t('signupPage.password')}</Form.Label>
                         <Form.Control required id="password" value={values.password} onChange={handleChange} type="password" name="password" isInvalid={!!errors.password} />
                         <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="mb-3">
-                        <Form.Label htmlFor="passwordConfirm">Подтвердите пароль</Form.Label>
+                        <Form.Label htmlFor="passwordConfirm">{t('signupPage.passwordConfirm')}</Form.Label>
                         <Form.Control required id="passwordConfirm" value={values.passwordConfirm} onChange={handleChange} type="password" name="passwordConfirm" isInvalid={!!errors.passwordConfirm} />
                         <Form.Control.Feedback type="invalid">{errors.passwordConfirm}</Form.Control.Feedback>
                       </Form.Group>
-                      <Button type="submit" className="w-100" variant="outline-primary">signupPageButton</Button>
+                      <Button type="submit" className="w-100" variant="outline-primary">{t('signupPage.button')}</Button>
                     </Form>
                   )}
                 </Formik>
