@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import store from './store';
 import init from './init.jsx';
-import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -15,5 +14,3 @@ root.render(
     </Provider>
   </React.StrictMode>,
 );
-
-reportWebVitals();
