@@ -1,5 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import * as filter from 'leo-profanity';
 import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
@@ -20,7 +21,7 @@ const RenameChannel = (props) => {
     try {
       const { channelName, channelId } = values;
       const data = {
-        name: channelName,
+        name: filter.clean(channelName),
         removable: true,
         id: channelId,
       };

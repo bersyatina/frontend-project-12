@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Signup from './pages/Signup';
 import Header from './components/Header';
 import { appPaths } from './routes';

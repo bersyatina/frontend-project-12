@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
+import * as filter from 'leo-profanity';
 import { useAddChannelMutation } from '../../api/channels';
 import { changeChannel } from '../../store/slices/appSlice';
 
@@ -16,7 +17,7 @@ const NewChannel = (props) => {
     try {
       const { channelName } = values;
       const data = {
-        name: channelName,
+        name: filter.clean(channelName),
         removable: true,
       };
       const payload = await addChannel(data).unwrap();
