@@ -1,5 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/channels';
 import { changeChannel } from '../../store/slices/appSlice';
 
@@ -15,6 +16,7 @@ const DeleteChannel = (props) => {
       if (id === currentChannelId) {
         dispatch(changeChannel({ id: '1', name: 'general' }));
       }
+      toast.success(t('toast.deleteChannel'));
     } catch (e) {
       console.error(e);
     }

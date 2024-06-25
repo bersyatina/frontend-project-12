@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
@@ -16,6 +17,7 @@ const App = () => (
       <Route path={appPaths.login()} element={<Login />} />
       <Route path={appPaths.signup()} element={<Signup />} />
     </Routes>
+    <ToastContainer />
   </BrowserRouter>
 );
 

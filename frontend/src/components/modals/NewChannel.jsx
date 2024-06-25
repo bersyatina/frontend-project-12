@@ -2,6 +2,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Formik } from 'formik';
+import { toast } from 'react-toastify';
 import { useAddChannelMutation } from '../../api/channels';
 import { changeChannel } from '../../store/slices/appSlice';
 
@@ -12,15 +13,20 @@ const NewChannel = (props) => {
   const [addChannel] = useAddChannelMutation();
 
   const handleFormSubmit = async (values) => {
-    const { channelName } = values;
-    const data = {
-      name: channelName,
-      removable: true,
-    };
-    const payload = await addChannel(data).unwrap();
-    const { id, name } = payload;
-    dispatch(changeChannel({ id, name }));
-    handleCloseModal();
+    try {
+      const { channelName } = values;
+      const data = {
+        name: channelName,
+        removable: true,
+      };
+      const payload = await addChannel(data).unwrap();
+      const { id, name } = payload;
+      dispatch(changeChannel({ id, name }));
+      handleCloseModal();
+      toast.success(t('toast.addChannel'));
+    } catch (e) {
+      console.error(e);
+    }
   };
   return (
     <Modal show={showModal === 'adding'} onHide={handleCloseModal}>

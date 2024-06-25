@@ -73,5 +73,11 @@ export default {
     dropdown: {
       toggle: 'Управление каналом',
     },
+    toast: {
+      addChannel: 'Канал создан',
+      deleteChannel: 'Канал удалён',
+      renameChannel: 'Канал переименован',
+      errorNetwork: 'Ошибка соединения',
+    },
   },
 };

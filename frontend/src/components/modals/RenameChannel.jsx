@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { useUpdateChannelMutation } from '../../api/channels';
 import { changeChannel } from '../../store/slices/appSlice';
 
@@ -26,6 +27,7 @@ const RenameChannel = (props) => {
       await updateChannel(data).unwrap();
       handleCloseModal();
       dispatch(changeChannel({ id: channelId, name: channelName }));
+      toast.success(t('toast.renameChannel'));
     } catch (e) {
       console.error(e);
     }

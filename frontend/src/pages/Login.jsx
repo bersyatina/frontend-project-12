@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks';
 import { useLoginMutation } from '../api/auth';
@@ -35,7 +36,7 @@ const Login = () => {
           break;
         }
         case 'FETCH_ERROR': {
-          setErrors({ web: 'errorNetwork' });
+          toast.error(t('toast.errorNetwork'));
           break;
         }
         default: {
