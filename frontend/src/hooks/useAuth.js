@@ -10,7 +10,13 @@ const useAuth = () => {
     dispatch(setUserData({ nickname, token }));
   };
 
-  return { logIn };
+  const logOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('nickname');
+    dispatch(setUserData({ nickname: '', token: null }));
+  };
+
+  return { logIn, logOut };
 };
 
 export default useAuth;

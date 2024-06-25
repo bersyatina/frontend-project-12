@@ -3,9 +3,11 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
+import Signup from './pages/Signup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.css';
+import { appPaths } from './routes';
 
 const App = () => (
   <BrowserRouter>
@@ -15,6 +17,7 @@ const App = () => (
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path={appPaths.signup()} element={<Signup />} />
       </Routes>
     </div>
   </BrowserRouter>
