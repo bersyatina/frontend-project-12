@@ -15,9 +15,11 @@ import ModalContainer from '../modals';
 import socket from '../../socket';
 import useAuth from '../../hooks';
 import { appPaths } from '../../routes';
+import { useGetMessagesQuery } from '../../api/messages';
 
 const Channels = () => {
   const { data: channels = [], error: channelError } = useGetChannelsQuery();
+  const { refetch } = useGetMessagesQuery();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.app.currentChannelId);
@@ -50,6 +52,7 @@ const Channels = () => {
         undefined,
         (draft) => draft.filter((curChannels) => curChannels.id !== id),
       ));
+      refetch();
     };
     const handleRenameChannel = ({ id, name }) => {
       dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
