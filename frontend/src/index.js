@@ -5,12 +5,16 @@ import './index.css';
 import store from './store';
 import init from './init.jsx';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const startApp = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  const initApp = await init();
+  root.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        {initApp}
+      </Provider>
+    </React.StrictMode>,
+  );
+};
 
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      {await init()}
-    </Provider>
-  </React.StrictMode>,
-);
+startApp();

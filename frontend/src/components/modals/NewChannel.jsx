@@ -4,12 +4,16 @@ import Button from 'react-bootstrap/Button';
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
 import * as filter from 'leo-profanity';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import { useAddChannelMutation } from '../../api/channels';
 import { changeChannel } from '../../store/slices/appSlice';
 
 const NewChannel = (props) => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
   const {
-    handleCloseModal, showModal, channelNameSchema, dispatch, t,
+    handleCloseModal, showModal, channelNameSchema,
   } = props;
   const [addChannel] = useAddChannelMutation();
 

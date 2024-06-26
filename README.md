@@ -17,6 +17,10 @@ Hexlet-chat is a simple chat application that allows users to communicate with e
 - Rename new channels
 - Delete new channels
 
+## System requirements
+
+For the project to work, you must have an installed Node.js 10+ version
+
 ## Installation
 
 ### Clone repository

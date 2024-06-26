@@ -41,9 +41,7 @@ const ModalContainer = () => {
       showModal={showModal}
       currentChannelId={currentChannelId}
       modalChannelId={modalChannelId}
-      dispatch={dispatch}
       channelNameSchema={channelNameSchema}
-      t={t}
     />
   );
 };

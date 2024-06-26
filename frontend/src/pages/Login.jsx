@@ -27,7 +27,7 @@ const Login = () => {
     const { data, error } = await login(user);
     if (data) {
       logIn(data.token, nickname);
-      navigate('/');
+      navigate(appPaths.home());
     }
     if (error) {
       switch (error.status) {

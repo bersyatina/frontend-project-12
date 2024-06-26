@@ -6,13 +6,14 @@ export const messagesApi = createApi({
   reducerPath: 'messages',
   baseQuery: fetchBaseQuery(
     {
-      baseUrl: apiPaths.messages(), prepareHeaders: setHeaders, tagTypes: ['Messages'],
+      baseUrl: apiPaths.messages(), prepareHeaders: setHeaders,
     },
   ),
-  tagTypes: ['Messages'],
+  tagTypes: ['Channel'],
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: () => '',
+      providesTags: ['Channel'],
     }),
     addMessage: builder.mutation({
       query: (message) => ({
@@ -24,5 +25,6 @@ export const messagesApi = createApi({
 });
 
 export const {
-  useGetMessagesQuery, useAddMessageMutation,
+  useGetMessagesQuery,
+  useAddMessageMutation,
 } = messagesApi;

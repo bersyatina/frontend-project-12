@@ -13,21 +13,20 @@ const Message = () => {
   const username = useSelector((state) => state.app.username);
   const [addMessage] = useAddMessageMutation();
   const { t } = useTranslation();
-  const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
-    try {
-      const { message } = values;
-      const data = {
-        message: filter.clean(message),
-        channelId: currentChannelId,
-        username,
-      };
-      await addMessage(data);
-      resetForm();
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setSubmitting(false);
-    }
+  const handleFormSubmit = async (values, { resetForm }) => {
+    const { message } = values;
+    if (!message.length) return;
+    const data = {
+      message: filter.clean(message),
+      channelId: currentChannelId,
+      username,
+    };
+    await addMessage(data).unwrap()
+      .then(() => {
+        resetForm();
+      }).catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

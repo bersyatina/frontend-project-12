@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -11,7 +10,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSignupMutation } from '../api/auth';
-import { setUserData } from '../store/slices/appSlice';
 import { appPaths } from '../routes';
 import useAuth from '../hooks';
 
@@ -19,7 +17,6 @@ const Signup = () => {
   const { logIn } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [signup] = useSignupMutation();
   const signupSchema = Yup.object().shape({
     nickname: Yup.string()
@@ -42,7 +39,6 @@ const Signup = () => {
     const { data, error } = await signup(user);
     if (data) {
       logIn(data.token, nickname);
-      dispatch(setUserData({ nickname, token: data.token }));
       navigate(appPaths.home());
     }
     if (error) {
