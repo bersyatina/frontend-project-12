@@ -59,6 +59,7 @@ const Channels = () => {
     const handleRenameChannel = ({ id, name }) => {
       dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
         const index = draft.findIndex((curChannels) => curChannels.id === id);
+        // eslint-disable-next-line no-param-reassign
         draft[index].name = name;
       }));
     };
