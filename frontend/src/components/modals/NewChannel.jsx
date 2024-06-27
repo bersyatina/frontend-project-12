@@ -42,6 +42,7 @@ const NewChannel = (props) => {
         <Formik
           initialValues={{ channelName: '' }}
           onSubmit={handleFormSubmit}
+          validateOnChange={false}
           validationSchema={channelNameSchema}
         >
           {({

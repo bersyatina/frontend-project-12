@@ -4,7 +4,7 @@ import Channels from '../components/channels/Channels';
 import Messages from '../components/messages/Messages';
 
 const Home = () => (
-  <Container className="rounded shadow h-100 mb-2">
+  <Container className="rounded shadow h-100 mb-2 overflow-hidden">
     <Row className="bg-white flex-md-row h-100">
       <Channels />
       <Messages />

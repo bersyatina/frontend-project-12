@@ -2,16 +2,14 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import * as filter from 'leo-profanity';
 import { Formik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useUpdateChannelMutation } from '../../api/channels';
-import { changeChannel } from '../../store/slices/appSlice';
 
 const RenameChannel = (props) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const {
     handleCloseModal, showModal, modalChannelId, channelNameSchema,
@@ -30,7 +28,6 @@ const RenameChannel = (props) => {
       };
       await updateChannel(data).unwrap();
       handleCloseModal();
-      dispatch(changeChannel({ id: channelId, name: channelName }));
       toast.success(t('toast.renameChannel'));
     } catch (e) {
       console.error(e);
@@ -50,6 +47,7 @@ const RenameChannel = (props) => {
       <Modal.Body>
         <Formik
           initialValues={{ channelName: modalChannelName, channelId: modalChannelId }}
+          validateOnChange={false}
           validationSchema={channelNameSchema}
           onSubmit={renameChannel}
         >

@@ -9,11 +9,11 @@ export const messagesApi = createApi({
       baseUrl: apiPaths.messages(), prepareHeaders: setHeaders,
     },
   ),
-  tagTypes: ['Channel'],
+  tagTypes: ['Message'],
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: () => '',
-      providesTags: ['Channel'],
+      providesTags: ['Message'],
     }),
     addMessage: builder.mutation({
       query: (message) => ({

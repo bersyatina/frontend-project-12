@@ -11,9 +11,6 @@ const Header = () => {
   const { logOut } = useAuth();
   const { t } = useTranslation();
   const app = useSelector((state) => state.app);
-  const logOutUser = () => {
-    logOut();
-  };
   return (
     <Navbar expand="lg" className="shadow-sm bg-white">
       <Container>
@@ -24,7 +21,7 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {app.token ? (
-              <Button onClick={() => logOutUser()} variant="primary">{t('header.logout')}</Button>
+              <Button onClick={() => logOut()} variant="primary">{t('header.logout')}</Button>
             ) : (
               ''
             )}

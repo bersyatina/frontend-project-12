@@ -14,12 +14,18 @@ const Messages = () => {
   const currentChannelName = useSelector((state) => state.app.currentChannelName);
   const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
   const messagesContainer = useRef();
+
+  useEffect(() => {
+    if (messagesContainer.current) {
+      messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
+    }
+  }, [messages]);
+
   useEffect(() => {
     const handleNewMessage = (newMessage) => {
       dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
         draft.push(newMessage);
       }));
-      messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
     };
     socket.on('newMessage', handleNewMessage);
     return () => {

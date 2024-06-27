@@ -31,14 +31,16 @@ const Channels = () => {
     dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
   };
 
-  if (currentChannelId === undefined) {
-    dispatch(changeChannel(defaultChannel));
-  }
-
   useEffect(() => {
     if (channelError?.status === 401) {
       logOut();
       navigate(appPaths.login());
+    }
+  }, [channelError, navigate, logOut]);
+
+  useEffect(() => {
+    if (currentChannelId === undefined) {
+      dispatch(changeChannel(defaultChannel));
     }
 
     const handleNewChannel = (channel) => {
@@ -56,9 +58,8 @@ const Channels = () => {
     };
     const handleRenameChannel = ({ id, name }) => {
       dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
-        const channel = draft;
-        const index = channel.findIndex((curChannels) => curChannels.id === id);
-        channel[index].name = name;
+        const index = draft.findIndex((curChannels) => curChannels.id === id);
+        draft[index].name = name;
       }));
     };
     socket.on('newChannel', handleNewChannel);
@@ -69,7 +70,7 @@ const Channels = () => {
       socket.off('removeChannel');
       socket.off('renameChannel');
     };
-  }, [dispatch, channelError, navigate, logOut]);
+  }, [dispatch]);
 
   return (
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">
